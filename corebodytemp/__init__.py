@@ -30,8 +30,7 @@ SOFTWARE.
 
 import logging
 
-# from .datatypes import *
 from .corebodytemp import *
+from .datatypes import *
 
 _logger = logging.getLogger(__name__)
-# _logger.addHandler(logging.NullHandler())

@@ -1,22 +1,31 @@
 [tool.poetry]
 name = "corebodytemp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python BLE API for interacting with CoreBodyTemp Sensors"
 authors = ["Stavros Avramidis <stavros9899@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/purpl3F0x/corebodytemp"
+repository = "https://github.com/purpl3F0x/corebodytemp"
+
+keywords = [
+    'corebodytemp',
+    'health thermometer',
+    'body temperature',
+    'ant'
+]
 
 classifiers = [
     "Development Status :: 1 - Planning",
     "Framework :: AsyncIO",
     "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Intended Audience :: Healthcare Industry",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Android",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -25,7 +34,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 bleak = "^0.14.0"
 
 [tool.poetry.dev-dependencies]

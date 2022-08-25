@@ -21,16 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Callable, Union, NamedTuple
 from enum import IntEnum, unique
+from typing import Callable, NamedTuple, Union
 
 from bleak import BleakClient
 from bleak.backends.device import BLEDevice
-from bleak.backends.winrt.client import BleakClientWinRT
 
 from .datatypes import CoreMeasurement
 
@@ -48,6 +48,13 @@ class Core(BleakClient):
     CORE_BODY_TEMP_CTRL_CHARACTERISTIC_ID = "00002102-5B1E-4347-B07C-97B514DAE121"
     # Common Defined GATTs
     BATTERY_LEVEL_UUID = "00002A19-0000-1000-8000-00805F9B34FB"
+
+    @unique
+    class AntHrmStatus(IntEnum):
+        CLOSED = 0x00
+        SEARCHING = 0x01
+        SYNCHRONISED = 0x02
+        # 0x03 RESERVED
 
     class _TempCtrlPointResponse(NamedTuple):
         @unique
@@ -128,7 +135,7 @@ class Core(BleakClient):
 
         return None
 
-    async def get_ant_hrm_id_at(self, index: int) -> int:
+    async def get_ant_hrm_id_at(self, index: int) -> (int, Core.AntHrmStatus):
         """
 
         :param index:
@@ -147,9 +154,10 @@ class Core(BleakClient):
             if response.resultCode == Core._TempCtrlPointResponse.ResultCodes.SUCCESS:
                 hrm_id = response.parameter[0]
                 ant_id = int.from_bytes(response.parameter[1:3], 'little') + ((response.parameter[3] & 0b1111) << 16)
+                hrm_status = Core.AntHrmStatus(response.parameter[3] & 0b110000 >> 4)
                 _logger.debug(f"Got ANT+ID of HRM[{hrm_id}]: {ant_id}")
 
-                return ant_id
+                return ant_id, hrm_status
 
             else:
                 _logger.error(f"Error Getting ANT+ID of HRM[{index}]: Result Code: {response.resultCode}")

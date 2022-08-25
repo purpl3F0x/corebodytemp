@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "corebodytemp"
-version = "0.1.1"
+version = "0.1.1r2"
 description = "Python BLE API for interacting with CoreBodyTemp Sensors"
 authors = ["Stavros Avramidis <stavros9899@gmail.com>"]
 license = "MIT"
